@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from starlette import status
 
-from app.category.schema import CategoryRead, CategoryCreate, CategoryUpdate
+from app.category.schema import CategoryReadSchema, CategoryCreateSchema, CategoryUpdateSchema
 from app.category.service import CategoryService
 from core.helpers.pagination_helper import Pagination
 
@@ -11,7 +11,7 @@ category_router = APIRouter()
 @category_router.get(
     '/categories',
     tags=['Categories'],
-    response_model=list[CategoryRead],
+    response_model=list[CategoryReadSchema],
     status_code=status.HTTP_200_OK,
 )
 async def read_all_categories(
@@ -27,7 +27,7 @@ async def read_all_categories(
 @category_router.get(
     '/categories/{category_id}',
     tags=['Categories'],
-    response_model=CategoryRead,
+    response_model=CategoryReadSchema,
     status_code=status.HTTP_200_OK,
 )
 async def read_category(
@@ -40,11 +40,11 @@ async def read_category(
 @category_router.post(
     '/categories',
     tags=['Categories'],
-    response_model=CategoryRead,
+    response_model=CategoryReadSchema,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_category(
-        request: CategoryCreate,
+        request: CategoryCreateSchema,
         service: CategoryService = Depends()
 ):
     return await service.create_category(request)
@@ -53,11 +53,11 @@ async def create_category(
 @category_router.put(
     '/categories/{category_id}',
     tags=['Categories'],
-    response_model=CategoryRead,
+    response_model=CategoryReadSchema,
     status_code=status.HTTP_200_OK,
 )
 async def update_category(
-        request: CategoryUpdate,
+        request: CategoryUpdateSchema,
         category_id: int,
         service: CategoryService = Depends()
 ):
@@ -67,7 +67,7 @@ async def update_category(
 @category_router.delete(
     '/categories/{category_id}',
     tags=['Categories'],
-    response_model=CategoryRead,
+    response_model=CategoryReadSchema,
     status_code=status.HTTP_200_OK,
 )
 async def delete_category(

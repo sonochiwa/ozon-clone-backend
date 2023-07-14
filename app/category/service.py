@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.category.model import Category
 from app.category.repository import CategoryRepository
-from app.category.schema import CategoryCreate, CategoryUpdate
+from app.category.schema import CategoryCreateSchema, CategoryUpdateSchema
 from core.base_classes.base_service import BaseService
 from core.db.session import get_async_session
 from core.exceptions.server_exception import ServerException
@@ -25,7 +25,7 @@ class CategoryService(BaseService):
         except Exception as e:
             raise ServerException(e)
 
-    async def create_category(self, request: CategoryCreate) -> Category:
+    async def create_category(self, request: CategoryCreateSchema) -> Category:
         try:
             category = await self.category_repository.create(request)
             return category
@@ -33,7 +33,7 @@ class CategoryService(BaseService):
             await self.session.rollback()
             raise ServerException(e)
 
-    async def update_category(self, request: CategoryUpdate, category_id: int) -> Category:
+    async def update_category(self, request: CategoryUpdateSchema, category_id: int) -> Category:
         try:
             category = await self.category_repository.update(request, category_id)
             return category
