@@ -1,6 +1,9 @@
 from fastapi import FastAPI
+from sqladmin import Admin, ModelView
 
+from app.user.model import User
 from core.config import config
+from core.db.session import engine
 from core.imports.import_routes import routes
 
 
@@ -13,6 +16,13 @@ def create_app():
         title='Ozon сlone API docs',
         docs_url=None if config.ENV == 'production' else '/docs',
     )
+    _admin = Admin(_app, engine)
+
+    class UserAdmin(ModelView, model=User):
+        column_list = [User.id, User.first_name]
+
+    _admin.add_view(UserAdmin)
+
     init_routers(_app)
 
     from starlette.middleware.cors import CORSMiddleware

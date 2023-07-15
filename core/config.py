@@ -14,6 +14,8 @@ class Config(BaseSettings):
     APP_HOST: str
     APP_PORT: int
     DB_URL: str
+    REDIS_URL: str
+
     TEST_DB_URL: str
 
     model_config = SettingsConfigDict(
