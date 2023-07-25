@@ -6,7 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.functions import func
 
 from core.helpers.pagination_helper import Pagination
-from core.utils.add_pagination import select_rows_with_pagination
+from core.utils.add_pagination import add_pagination
+from core.utils.add_sort import add_sort, SortEnum
 
 TModel = TypeVar('TModel')
 TCreateSchema = TypeVar('TCreateSchema')
@@ -22,16 +23,27 @@ class BaseRepository:
         self.session = session
         self.model = model
 
-    async def get_multi(self, pagination: Pagination) -> tuple[list[TModel], str]:
-        query = await self.session.execute(
-            select_rows_with_pagination(self.model, pagination)
-        )
+    async def get_multi(
+            self, pagination: Pagination = None, sort: SortEnum = None,
+    ) -> tuple[list[TModel], str]:
+        query = select(self.model)
+
+        if pagination is not None:
+            query = add_pagination(query, pagination)
+
+        if sort is not None:
+            query = add_sort(query, sort, self.model)
+
+        # if filters is not None:
+        #     query = add_filters()
+
+        result = await self.session.execute(query)
 
         total_count = await self.session.execute(
             select(func.count()).select_from(self.model)
         )
 
-        return query.scalars().all(), str(total_count.one())
+        return result.scalars().all(), str(total_count.scalar_one())
 
     async def get_by_id(self, row_id: int | UUID) -> TModel:
         query = await self.session.execute(

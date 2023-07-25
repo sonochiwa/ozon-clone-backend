@@ -1,15 +1,10 @@
-import enum
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
-class EnvVariables(enum.Enum):
-    DEVELOPMENT: str = 'development'
-    PRODUCTION: str = 'production'
+from core.enums.env_enum import EnvEnum
 
 
 class Config(BaseSettings):
-    ENV: EnvVariables
+    ENV: EnvEnum
     SECRET_KEY: str
     APP_HOST: str
     APP_PORT: int
