@@ -154,7 +154,7 @@ def upgrade() -> None:
 
             # Товары для взрослых
             {'name': 'Секс игрушки', 'category_id': 12},
-            {'name': 'Товары БДСВ', 'category_id': 12},
+            {'name': 'Товары БДСМ', 'category_id': 12},
             {'name': 'Эротическое белье и костюмы', 'category_id': 12},
             {'name': 'Презервативы и лубриканты', 'category_id': 12},
             {'name': 'Интимная косметика', 'category_id': 12},

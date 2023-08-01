@@ -3,8 +3,8 @@ from starlette import status
 
 from app.category.schema import CategoryReadSchema, CategoryCreateSchema, CategoryUpdateSchema
 from app.category.service import CategoryService
-from core.helpers.sort_helper import Sort
 from core.helpers.pagination_helper import Pagination
+from core.helpers.sort_helper import Sort
 from core.utils.add_sort import SortEnum
 
 category_router = APIRouter()
@@ -17,10 +17,10 @@ category_router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def read_all_categories(
+        response: Response,
         pagination: Pagination = Depends(Pagination.get_pagination),
         sort: SortEnum = Depends(Sort.get_sort),
         service: CategoryService = Depends(),
-        response: Response = None,
 ):
     categories, total_count = await service.read_all_categories(pagination, sort)
     response.headers["X-Total-Count"] = total_count

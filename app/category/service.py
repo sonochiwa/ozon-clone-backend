@@ -1,5 +1,4 @@
 from fastapi import Depends
-from sqlalchemy import Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.category.model import Category
@@ -17,8 +16,8 @@ class CategoryService(BaseService):
         super().__init__(session)
         self.category_repository = CategoryRepository(session)
 
-    async def read_all_categories(self, pagination: Pagination, sort: SortEnum) -> tuple[list[Category], str]:
-        return await self.category_repository.get_multi(pagination, sort)
+    async def read_all_categories(self, pagination, sort) -> tuple[list[Category], str]:
+        return await self.category_repository.get_multi(pagination=pagination, sort=sort)
 
     async def read_category(self, category_id: int) -> Category:
         try:

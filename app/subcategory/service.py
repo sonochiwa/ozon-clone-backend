@@ -7,7 +7,6 @@ from app.subcategory.schema import SubcategoryCreateSchema, SubcategoryUpdateSch
 from core.base_classes.base_service import BaseService
 from core.db.session import get_async_session
 from core.exceptions.server_exception import ServerException
-from core.helpers.pagination_helper import Pagination
 
 
 class SubcategoryService(BaseService):
@@ -15,8 +14,8 @@ class SubcategoryService(BaseService):
         super().__init__(session)
         self.subcategory_repository = SubcategoryRepository(session)
 
-    async def read_all_subcategories(self, pagination: Pagination) -> tuple[list[Subcategory], str]:
-        return await self.subcategory_repository.get_multi(pagination)
+    async def read_all_subcategories(self, pagination, sort, filters) -> tuple[list[Subcategory], str]:
+        return await self.subcategory_repository.get_multi(pagination=pagination, sort=sort, filters=filters)
 
     async def read_subcategory(self, subcategory_id: int) -> Subcategory:
         try:

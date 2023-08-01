@@ -1,9 +1,13 @@
 from fastapi import APIRouter, Depends, Response
 from starlette import status
 
+from app.subcategory.helpers import SubcategoryHelper
 from app.subcategory.schema import SubcategoryReadSchema, SubcategoryCreateSchema, SubcategoryUpdateSchema
 from app.subcategory.service import SubcategoryService
+from core.enums.sort_enum import SortEnum
+from core.helpers.filters_helper import Filter
 from core.helpers.pagination_helper import Pagination
+from core.helpers.sort_helper import Sort
 
 subcategory_router = APIRouter()
 
@@ -17,9 +21,11 @@ subcategory_router = APIRouter()
 async def read_all_subcategories(
         response: Response,
         pagination: Pagination = Depends(Pagination.get_pagination),
+        filters: Filter = Depends(SubcategoryHelper.get_filter),
+        sort: SortEnum = Depends(Sort.get_sort),
         service: SubcategoryService = Depends(),
 ):
-    subcategories, total_count = await service.read_all_subcategories(pagination)
+    subcategories, total_count = await service.read_all_subcategories(pagination, sort, filters)
     response.headers["X-Total-Count"] = total_count
     return subcategories
 

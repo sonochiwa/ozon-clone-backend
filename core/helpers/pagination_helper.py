@@ -2,13 +2,13 @@ from fastapi.params import Query
 
 
 class Pagination:
-    def __init__(self, limit: int, offset: int):
+    def __init__(self, limit: int, page: int):
         self.limit = limit
-        self.offset = offset
+        self.page = page
 
     @staticmethod
     def get_pagination(
             limit: int = Query(default=None, ge=1),
-            offset: int = Query(default=None, ge=1)
+            page: int = Query(default=None, ge=1)
     ):
-        return Pagination(limit, offset)
+        return Pagination(limit, page)
