@@ -1,6 +1,3 @@
-from sqlalchemy.ext.declarative import as_declarative
+from sqlalchemy.ext.declarative import declarative_base
 
-
-@as_declarative()
-class Base:
-    __name__: str
+Base = declarative_base()

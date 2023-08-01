@@ -9,9 +9,9 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 
-from app.user.model import User
 from app.user.repository import get_user_db
 from core.config import config
+from core.db.models.user import User
 
 SECRET = config.SECRET_KEY
 

@@ -18,7 +18,10 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # for 'autogenerate' support
-from app.user.model import Base
+from core.db import models
+
+models
+from core.base_classes.base_model import Base
 
 target_metadata = Base.metadata
 

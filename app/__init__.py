@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 
-from app.user.model import User
 from core.config import config
 from core.fastapi.middlewares.cors import init_cors
 from core.imports.import_routes import routes

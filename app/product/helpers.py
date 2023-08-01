@@ -2,7 +2,7 @@ from core.db.models.subcategory import Subcategory
 from core.helpers.filters_helper import Filter
 
 
-class SubcategoryHelper:
+class ProductHelper:
     @classmethod
     def get_filter(
             cls,

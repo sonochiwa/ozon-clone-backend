@@ -1,10 +1,10 @@
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.category.model import Category
 from app.category.repository import CategoryRepository
 from app.category.schema import CategoryCreateSchema, CategoryUpdateSchema
 from core.base_classes.base_service import BaseService
+from core.db.models.category import Category
 from core.db.session import get_async_session
 from core.exceptions.server_exception import ServerException
 
