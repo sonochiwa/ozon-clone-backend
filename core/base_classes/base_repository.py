@@ -17,11 +17,7 @@ TUpdateSchema = TypeVar('TUpdateSchema')
 
 
 class BaseRepository:
-    def __init__(
-            self,
-            session: AsyncSession,
-            model: TModel,
-    ) -> None:
+    def __init__(self, session: AsyncSession, model: TModel) -> None:
         self.session = session
         self.model = model
 
@@ -37,7 +33,7 @@ class BaseRepository:
             query = add_pagination(query, pagination)
 
         if filters:
-            query = add_filters(query, filters, self.model)
+            query = add_filters(query, filters)
 
         if sort:
             query = add_sort(query, sort, self.model)
@@ -60,7 +56,6 @@ class BaseRepository:
     async def create(self, request: TCreateSchema):
         stmt = self.model(**request.dict())
         self.session.add(stmt)
-        await self.session.commit()
 
         return stmt
 
@@ -71,8 +66,6 @@ class BaseRepository:
             setattr(stmt, field, value)
 
         self.session.add(stmt)
-        await self.session.commit()
-        await self.session.refresh(stmt)
 
         return stmt
 

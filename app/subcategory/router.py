@@ -21,8 +21,8 @@ subcategory_router = APIRouter()
 async def read_all_subcategories(
         response: Response,
         pagination: Pagination = Depends(Pagination.get_pagination),
-        filters: Filter = Depends(SubcategoryHelper.get_filter),
         sort: SortEnum = Depends(Sort.get_sort),
+        filters: Filter = Depends(SubcategoryHelper.get_filter),
         service: SubcategoryService = Depends(),
 ):
     subcategories, total_count = await service.read_all_subcategories(pagination, sort, filters)

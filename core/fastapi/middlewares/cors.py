@@ -13,4 +13,5 @@ def init_cors(_app: FastAPI) -> None:
         allow_credentials=True,
         allow_methods=['OPTIONS', 'GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
         allow_headers=['Content-Type', 'Set-Cookie', 'Access-Control-Allow-Headers', 'X-Total-Count'],
+        expose_headers=['X-Total-Count'],
     )

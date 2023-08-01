@@ -12,6 +12,7 @@ class SubcategoryReadSchema(BaseModel):
 
 class SubcategoryCreateSchema(BaseModel):
     name: str = Field(..., max_length=100)
+    category_id: int = Field(...)
 
 
 class SubcategoryUpdateSchema(BaseModel):

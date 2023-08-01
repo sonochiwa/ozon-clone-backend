@@ -27,6 +27,7 @@ class SubcategoryService(BaseService):
     async def create_subcategory(self, request: SubcategoryCreateSchema) -> Subcategory:
         try:
             subcategory = await self.subcategory_repository.create(request)
+            await self.session.commit()
             return subcategory
         except Exception as e:
             await self.session.rollback()
@@ -35,6 +36,7 @@ class SubcategoryService(BaseService):
     async def update_subcategory(self, request: SubcategoryUpdateSchema, subcategory_id: int) -> Subcategory:
         try:
             subcategory = await self.subcategory_repository.update(request, subcategory_id)
+            await self.session.commit()
             return subcategory
         except Exception as e:
             await self.session.rollback()
