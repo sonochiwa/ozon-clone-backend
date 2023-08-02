@@ -2,11 +2,15 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.product.repository import ProductRepository
+from app.product.schema import ProductCreateSchema
 from app.subcategory.schema import SubcategoryCreateSchema, SubcategoryUpdateSchema
 from core.base_classes.base_service import BaseService
 from core.db.models.product import Product
 from core.db.session import get_async_session
+from core.enums.sort_enum import SortEnum
 from core.exceptions.server_exception import ServerException
+from core.helpers.filters_helper import Filter
+from core.helpers.pagination_helper import Pagination
 
 
 class ProductService(BaseService):
@@ -14,8 +18,12 @@ class ProductService(BaseService):
         super().__init__(session)
         self.product_repository = ProductRepository(session)
 
-    async def read_all_products(self, pagination, sort, filters) -> tuple[list[Product], str]:
-        return await self.product_repository.get_multi()
+    async def read_all_products(
+            self, pagination: Pagination,
+            sort: SortEnum,
+            filters: Filter
+    ) -> tuple[list[Product], str]:
+        return await self.product_repository.get_multi(pagination=pagination, sort=sort, filters=filters)
 
     async def read_product(self, subcategory_id: int) -> Product:
         try:
@@ -24,7 +32,7 @@ class ProductService(BaseService):
         except Exception as e:
             raise ServerException(e)
 
-    async def create_product(self, request: SubcategoryCreateSchema) -> Product:
+    async def create_product(self, request: ProductCreateSchema) -> Product:
         try:
             subcategory = await self.product_repository.create(request)
             await self.session.commit()

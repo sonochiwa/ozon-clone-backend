@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Response
 from starlette import status
 
 from app.product.helpers import ProductHelper
-from app.product.schema import ProductReadSchema
+from app.product.schema import ProductReadSchema, ProductCreateSchema
 from app.product.service import ProductService
 from core.enums.sort_enum import SortEnum
 from core.helpers.filters_helper import Filter
@@ -29,6 +29,7 @@ async def read_all_products(
     response.headers["X-Total-Count"] = total_count
     return subcategories
 
+
 #
 # @subcategory_router.get(
 #     '/subcategories/{subcategory_id}',
@@ -41,21 +42,19 @@ async def read_all_products(
 #         service: SubcategoryService = Depends()
 # ):
 #     return await service.read_subcategory(subcategory_id)
-#
-#
-# @subcategory_router.post(
-#     '/subcategories',
-#     tags=['Subcategories'],
-#     response_model=SubcategoryReadSchema,
-#     status_code=status.HTTP_201_CREATED,
-# )
-# async def create_subcategory(
-#         request: SubcategoryCreateSchema,
-#         service: SubcategoryService = Depends()
-# ):
-#     return await service.create_subcategory(request)
-#
-#
+
+@product_router.post(
+    '/products',
+    tags=['Products'],
+    response_model=ProductReadSchema,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_product(
+        request: ProductCreateSchema,
+        service: ProductService = Depends()
+):
+    return await service.create_product(request)
+
 # @subcategory_router.put(
 #     '/subcategories/{subcategory_id}',
 #     tags=['Subcategories'],
