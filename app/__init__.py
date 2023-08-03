@@ -17,13 +17,6 @@ def create_app():
     init_cors(_app)
     init_routers(_app)
 
-    # admin = Admin(_app, engine)
-    #
-    # class UserAdmin(ModelView, model=User):
-    #     column_list = [User.id, User.first_name]
-    #
-    # admin.add_view(UserAdmin)
-
     return _app
 
 
