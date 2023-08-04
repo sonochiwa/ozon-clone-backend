@@ -23,6 +23,7 @@ pydantic-settings = "^2.0.1"
 redis = "^4.6.0"
 itsdangerous = "^2.1.2"
 psycopg = {extras = ["binary"], version = "^3.1.9"}
+python-multipart = "^0.0.6"
 
 
 [build-system]

@@ -2,8 +2,9 @@ from pydantic import BaseModel
 
 
 class ImageGetSchema(BaseModel):
-    id: int | None
-    path: str | None
+    id: int
+    filename: str
+    size: int
 
     class Config:
         from_attributes = True

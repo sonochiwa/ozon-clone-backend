@@ -1,8 +1,11 @@
-from fastapi import Depends
+import os
+
+from fastapi import Depends, UploadFile, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
 
 from app.image.repository import ImageRepository
-from app.image.schema import ImageCreateSchema, ImageUpdateSchema
+from app.image.schema import ImageCreateSchema
 from core.base_classes.base_service import BaseService
 from core.db.models.image import Image
 from core.db.session import get_async_session
@@ -14,39 +17,34 @@ class ImageService(BaseService):
         super().__init__(session)
         self.image_repository = ImageRepository(session)
 
-    async def get_all_images(self, pagination, sort) -> tuple[list[Image], str]:
-        return await self.image_repository.get_multi(pagination=pagination, sort=sort)
-
     async def get_image(self, image_id: int) -> Image:
         try:
             image = await self.image_repository.get_by_id(image_id)
-            return image
+            return image.path
         except Exception as e:
             raise ServerException(e)
 
-    async def add_image(self, request: ImageCreateSchema) -> Image:
+    async def upload_image(self, file: UploadFile) -> UploadFile:
+        file_extensions = ['.png', '.jpg', '.jpeg', '.webp']
+        file_extension = os.path.splitext(file.filename)
+
+        if file_extension[1] not in file_extensions:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, 'Unavailable file format')
+
+        if file.size > 2000000:  # 2 MB
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, 'The image size must be less than 2 MB')
+
         try:
+            file_location = f"s3/images/{file.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(file.file.read())
+
+            request = ImageCreateSchema(path=file_location)
             image = await self.image_repository.create(request)
             await self.session.commit()
-            return image
-        except Exception as e:
-            await self.session.rollback()
-            raise ServerException(e)
 
-    async def update_image(self, request: ImageUpdateSchema, image_id: int) -> Image:
-        try:
-            image = await self.image_repository.update(request, image_id)
-            await self.session.commit()
-            return image
-        except Exception as e:
-            await self.session.rollback()
-            raise ServerException(e)
-
-    async def delete_image(self, image_id: int) -> Image:
-        try:
-            image = await self.image_repository.delete(image_id)
-            await self.session.commit()
-            return image
+            file.id = image.id
+            return file
         except Exception as e:
             await self.session.rollback()
             raise ServerException(e)
