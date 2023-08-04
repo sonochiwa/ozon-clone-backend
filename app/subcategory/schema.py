@@ -1,7 +1,7 @@
 from pydantic import Field, BaseModel
 
 
-class SubcategoryReadSchema(BaseModel):
+class SubcategoryGetSchema(BaseModel):
     id: int | None
     name: str | None = Field(None, max_length=100)
     category_id: int | None = Field(None)

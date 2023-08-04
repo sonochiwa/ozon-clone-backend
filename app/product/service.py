@@ -18,14 +18,14 @@ class ProductService(BaseService):
         super().__init__(session)
         self.product_repository = ProductRepository(session)
 
-    async def read_all_products(
+    async def get_all_products(
             self, pagination: Pagination,
             sort: SortEnum,
             filters: Filter
     ) -> tuple[list[Product], str]:
         return await self.product_repository.get_multi(pagination=pagination, sort=sort, filters=filters)
 
-    async def read_product(self, subcategory_id: int) -> Product:
+    async def get_product(self, subcategory_id: int) -> Product:
         try:
             subcategory = await self.product_repository.get_by_id(subcategory_id)
             return subcategory

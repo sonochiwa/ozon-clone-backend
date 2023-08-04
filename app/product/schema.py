@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import Field, BaseModel
 
 
-class ProductReadSchema(BaseModel):
+class ProductGetSchema(BaseModel):
     id: UUID | None
     name: str | None = Field(None, max_length=100)
     price: float | None

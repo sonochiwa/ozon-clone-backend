@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Response
 from starlette import status
 
 from app.subcategory.helpers import SubcategoryHelper
-from app.subcategory.schema import SubcategoryReadSchema, SubcategoryCreateSchema, SubcategoryUpdateSchema
+from app.subcategory.schema import SubcategoryGetSchema, SubcategoryCreateSchema, SubcategoryUpdateSchema
 from app.subcategory.service import SubcategoryService
 from core.enums.sort_enum import SortEnum
 from core.helpers.filters_helper import Filter
@@ -15,17 +15,17 @@ subcategory_router = APIRouter()
 @subcategory_router.get(
     '/subcategories',
     tags=['Subcategories'],
-    response_model=list[SubcategoryReadSchema],
+    response_model=list[SubcategoryGetSchema],
     status_code=status.HTTP_200_OK,
 )
-async def read_all_subcategories(
+async def get_all_subcategories(
         response: Response,
         pagination: Pagination = Depends(Pagination.get_pagination),
         sort: SortEnum = Depends(Sort.get_sort),
         filters: Filter = Depends(SubcategoryHelper.get_filter),
         service: SubcategoryService = Depends(),
 ):
-    subcategories, total_count = await service.read_all_subcategories(pagination, sort, filters)
+    subcategories, total_count = await service.get_all_subcategories(pagination, sort, filters)
     response.headers["X-Total-Count"] = total_count
     return subcategories
 
@@ -33,20 +33,20 @@ async def read_all_subcategories(
 @subcategory_router.get(
     '/subcategories/{subcategory_id}',
     tags=['Subcategories'],
-    response_model=SubcategoryReadSchema,
+    response_model=SubcategoryGetSchema,
     status_code=status.HTTP_200_OK,
 )
-async def read_subcategory(
+async def get_subcategory(
         subcategory_id: int,
         service: SubcategoryService = Depends()
 ):
-    return await service.read_subcategory(subcategory_id)
+    return await service.get_subcategory(subcategory_id)
 
 
 @subcategory_router.post(
     '/subcategories',
     tags=['Subcategories'],
-    response_model=SubcategoryReadSchema,
+    response_model=SubcategoryGetSchema,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_subcategory(
@@ -59,7 +59,7 @@ async def create_subcategory(
 @subcategory_router.put(
     '/subcategories/{subcategory_id}',
     tags=['Subcategories'],
-    response_model=SubcategoryReadSchema,
+    response_model=SubcategoryGetSchema,
     status_code=status.HTTP_200_OK,
 )
 async def update_subcategory(
@@ -73,7 +73,7 @@ async def update_subcategory(
 @subcategory_router.delete(
     '/subcategories/{subcategory_id}',
     tags=['Subcategories'],
-    response_model=SubcategoryReadSchema,
+    response_model=SubcategoryGetSchema,
     status_code=status.HTTP_200_OK,
 )
 async def delete_subcategory(

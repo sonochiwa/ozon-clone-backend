@@ -14,10 +14,10 @@ class SubcategoryService(BaseService):
         super().__init__(session)
         self.subcategory_repository = SubcategoryRepository(session)
 
-    async def read_all_subcategories(self, pagination, sort, filters) -> tuple[list[Subcategory], str]:
+    async def get_all_subcategories(self, pagination, sort, filters) -> tuple[list[Subcategory], str]:
         return await self.subcategory_repository.get_multi(pagination=pagination, sort=sort, filters=filters)
 
-    async def read_subcategory(self, subcategory_id: int) -> Subcategory:
+    async def get_subcategory(self, subcategory_id: int) -> Subcategory:
         try:
             subcategory = await self.subcategory_repository.get_by_id(subcategory_id)
             return subcategory
