@@ -7,8 +7,8 @@ from starlette import status
 from app.image.repository import ImageRepository
 from app.image.schema import ImageCreateSchema
 from core.base_classes.base_service import BaseService
-from core.db.models.image import Image
-from core.db.session import get_async_session
+from core.database.models.image import Image
+from core.database.session import get_async_session
 from core.exceptions.server_exception import ServerException
 
 

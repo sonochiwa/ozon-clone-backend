@@ -3,7 +3,7 @@ from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from core.base_classes.base_model import Base
-from core.db.mixins.timestamp_mixin import TimestampMixin
+from core.database.mixins.timestamp_mixin import TimestampMixin
 
 
 class User(Base, SQLAlchemyBaseUserTableUUID, TimestampMixin):

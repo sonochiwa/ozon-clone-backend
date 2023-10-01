@@ -1,4 +1,4 @@
-from core.db.models.product import Product
+from core.database.models.product import Product
 from core.helpers.filters_helper import Filter
 
 

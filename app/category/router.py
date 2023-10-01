@@ -7,12 +7,13 @@ from core.helpers.pagination_helper import Pagination
 from core.helpers.sort_helper import Sort
 from core.utils.add_sort import SortEnum
 
-category_router = APIRouter()
+category_router = APIRouter(
+    tags=['Categories'],
+)
 
 
 @category_router.get(
     '/categories',
-    tags=['Categories'],
     response_model=list[CategoryGetSchema],
     status_code=status.HTTP_200_OK,
 )
@@ -27,22 +28,8 @@ async def get_all_categories(
     return categories
 
 
-@category_router.get(
-    '/categories/{category_id}',
-    tags=['Categories'],
-    response_model=CategoryGetSchema,
-    status_code=status.HTTP_200_OK,
-)
-async def get_category(
-        category_id: int,
-        service: CategoryService = Depends()
-):
-    return await service.get_category(category_id)
-
-
 @category_router.post(
     '/categories',
-    tags=['Categories'],
     response_model=CategoryGetSchema,
     status_code=status.HTTP_201_CREATED,
 )
@@ -55,7 +42,6 @@ async def create_category(
 
 @category_router.put(
     '/categories/{category_id}',
-    tags=['Categories'],
     response_model=CategoryGetSchema,
     status_code=status.HTTP_200_OK,
 )
@@ -69,7 +55,6 @@ async def update_category(
 
 @category_router.delete(
     '/categories/{category_id}',
-    tags=['Categories'],
     response_model=CategoryGetSchema,
     status_code=status.HTTP_200_OK,
 )

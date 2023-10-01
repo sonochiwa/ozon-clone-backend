@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.base_classes.base_repository import BaseRepository
-from core.db.models.image import Image
+from core.database.models.image import Image
 
 
 class ImageRepository(BaseRepository):

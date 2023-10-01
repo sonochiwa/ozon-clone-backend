@@ -10,4 +10,4 @@ class Subcategory(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(sa.String(100))
 
-    category_id: Mapped[int] = mapped_column(sa.ForeignKey('categories.id'))
+    category_id: Mapped[int] = mapped_column(sa.ForeignKey('categories.id', ondelete='CASCADE'))

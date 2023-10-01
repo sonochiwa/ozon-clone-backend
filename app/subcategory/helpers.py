@@ -1,4 +1,4 @@
-from core.db.models.subcategory import Subcategory
+from core.database.models.subcategory import Subcategory
 from core.helpers.filters_helper import Filter
 
 

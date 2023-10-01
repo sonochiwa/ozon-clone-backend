@@ -3,10 +3,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.product.repository import ProductRepository
 from app.product.schema import ProductCreateSchema
-from app.subcategory.schema import SubcategoryCreateSchema, SubcategoryUpdateSchema
+from app.subcategory.schema import SubcategoryUpdateSchema
 from core.base_classes.base_service import BaseService
-from core.db.models.product import Product
-from core.db.session import get_async_session
+from core.database.models.product import Product
+from core.database.session import get_async_session
 from core.enums.sort_enum import SortEnum
 from core.exceptions.server_exception import ServerException
 from core.helpers.filters_helper import Filter

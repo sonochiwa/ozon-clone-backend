@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.base_classes.base_repository import BaseRepository
-from core.db.models.product import Product
+from core.database.models.product import Product
 
 
 class ProductRepository(BaseRepository):

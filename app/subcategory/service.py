@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.subcategory.repository import SubcategoryRepository
 from app.subcategory.schema import SubcategoryCreateSchema, SubcategoryUpdateSchema
 from core.base_classes.base_service import BaseService
-from core.db.models.subcategory import Subcategory
-from core.db.session import get_async_session
+from core.database.models.subcategory import Subcategory
+from core.database.session import get_async_session
 from core.exceptions.server_exception import ServerException
 
 
